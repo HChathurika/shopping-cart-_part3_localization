@@ -14,4 +14,4 @@ COPY . /app/
 RUN mvn package
 
 # Run the main class from the built JAR
-CMD ["java", "-jar", "target/ShoppingCart-1.0-SNAPSHOT.jar"]
+CMD ["java", "-jar", "target/shopping-cart.jar"]
