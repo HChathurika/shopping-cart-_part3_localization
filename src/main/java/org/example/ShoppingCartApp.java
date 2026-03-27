@@ -1,3 +1,5 @@
+package org.example;
+
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Scanner;
@@ -7,11 +9,12 @@ public class ShoppingCartApp {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
-        System.out.println("Select language / Valitse kieli / Välj språk:");
+        System.out.println("Select language:");
         System.out.println("1. English");
         System.out.println("2. Finnish");
         System.out.println("3. Swedish");
         System.out.println("4. Japanese");
+        System.out.println("5. Arabic");
         System.out.print("Enter choice: ");
 
         int choice = input.nextInt();
@@ -27,7 +30,9 @@ public class ShoppingCartApp {
             case 4:
                 locale = new Locale("ja", "JP");
                 break;
-            case 1:
+            case 5:
+                locale = new Locale("ar", "AR");
+                break;
             default:
                 locale = new Locale("en", "US");
                 break;
@@ -35,40 +40,23 @@ public class ShoppingCartApp {
 
         ResourceBundle rb = ResourceBundle.getBundle("MessagesBundle", locale);
 
-        System.out.print(rb.getString("itemCount"));
+        System.out.print(rb.getString("itemCount") + ": ");
         int itemCount = input.nextInt();
 
         double cartTotal = 0.0;
 
         for (int i = 1; i <= itemCount; i++) {
-
-            System.out.print(rb.getString("price"));
+            System.out.print(rb.getString("price") + " " + i + ": ");
             double price = input.nextDouble();
 
-            System.out.print(rb.getString("quantity"));
+            System.out.print(rb.getString("quantity") + " " + i + ": ");
             int quantity = input.nextInt();
 
-            double itemTotal = calculateItemTotal(price, quantity);
+            double itemTotal = ShoppingCartCalculator.calculateItemTotal(price, quantity);
             cartTotal += itemTotal;
-
-
-
-
         }
 
-        System.out.println(rb.getString("cartTotal") + " " + cartTotal);
+        System.out.println(rb.getString("cartTotal") + ": " + cartTotal);
         input.close();
-    }
-
-    public static double calculateItemTotal(double price, int quantity) {
-        return price * quantity;
-    }
-
-    public static double calculateCartTotal(double[] prices, int[] quantities) {
-        double total = 0.0;
-        for (int i = 0; i < prices.length; i++) {
-            total += calculateItemTotal(prices[i], quantities[i]);
-        }
-        return total;
     }
 }
