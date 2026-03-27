@@ -1,17 +1,10 @@
-# Use Maven image to build the application
-FROM maven:latest
+FROM maven:3.9.6-eclipse-temurin-21
 
-# Set working directory inside the container
 WORKDIR /app
 
-# Copy the pom.xml to download dependencies first (caching optimization)
-COPY pom.xml /app/
+COPY pom.xml .
+COPY src ./src
 
-# Copy the entire project to the container
-COPY . /app/
+RUN mvn clean package
 
-# Package the application using Maven
-RUN mvn package
-
-# Run the main class from the built JAR
-CMD ["java", "-jar", "target/shopping-cart.jar"]
+CMD ["java", "-cp", "target/classes", "org.example.ShoppingCartApp"]
